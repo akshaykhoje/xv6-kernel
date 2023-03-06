@@ -79,24 +79,24 @@ allocproc(void)
   acquire(&ptable.lock);
 
   for(p = ptable.proc; p < &ptable.proc[NPROC]; p++)
-    if(p->state == UNUSED)
+    if(p->state == UNUSED)  //Akshay: iterate over the process table 'proc' and if any unused process is found, goto 'found'
       goto found;
 
   release(&ptable.lock);
   return 0;
 
 found:
-  p->state = EMBRYO;
-  p->pid = nextpid++;
+  p->state = EMBRYO;    //Akshay: the process is being formed.
+  p->pid = nextpid++;   
 
   release(&ptable.lock);
 
   // Allocate kernel stack.
-  if((p->kstack = kalloc()) == 0){
+  if((p->kstack = kalloc()) == 0){   //Akshay: kalloc -> allocates a page, p->kstack => points to the page.
     p->state = UNUSED;
     return 0;
   }
-  sp = p->kstack + KSTACKSIZE;
+  sp = p->kstack + KSTACKSIZE;  //Akshay: local pointer points to the top of the kernel stack of the process, initially.
 
   // Leave room for trap frame.
   sp -= sizeof *p->tf;
@@ -105,12 +105,13 @@ found:
   // Set up new context to start executing at forkret,
   // which returns to trapret.
   sp -= 4;
-  *(uint*)sp = (uint)trapret;
+  *(uint*)sp = (uint)trapret;   //Akshay: it is a function which returns from a trap below the trap frame.
 
+  //Akshay: creating process context
   sp -= sizeof *p->context;
   p->context = (struct context*)sp;
-  memset(p->context, 0, sizeof *p->context);
-  p->context->eip = (uint)forkret;
+  memset(p->context, 0, sizeof *p->context);    //Akshay: since initial process, hence setting all register values to 0 to avoid garbage values.
+  p->context->eip = (uint)forkret;  //Akshay: We set the eip to forkret's return value, when the process gets popped as a part of the context switch step.
 
   return p;
 }
@@ -121,14 +122,14 @@ void
 userinit(void)
 {
   struct proc *p;
-  extern char _binary_initcode_start[], _binary_initcode_size[];
+  extern char _binary_initcode_start[], _binary_initcode_size[]; 
 
-  p = allocproc();
+  p = allocproc();  //Abhijit: obtain proc 'p' with stack initialized and trapframe created and eip set to 'forkret'.
   
   initproc = p;
-  if((p->pgdir = setupkvm()) == 0)
+  if((p->pgdir = setupkvm()) == 0)  //Akshay: pgdir gets the kernel mapping. (Above KERNBASE).
     panic("userinit: out of memory?");
-  inituvm(p->pgdir, _binary_initcode_start, (int)_binary_initcode_size);
+  inituvm(p->pgdir, _binary_initcode_start, (int)_binary_initcode_size);    //Akshay: does page mapping for code of the process. (Below KERNBASE).
   p->sz = PGSIZE;
   memset(p->tf, 0, sizeof(*p->tf));
   p->tf->cs = (SEG_UCODE << 3) | DPL_USER;
@@ -136,7 +137,7 @@ userinit(void)
   p->tf->es = p->tf->ds;
   p->tf->ss = p->tf->ds;
   p->tf->eflags = FL_IF;
-  p->tf->esp = PGSIZE;
+  p->tf->esp = PGSIZE;      //Akshay: stack pointer of the user code i.e. 4k giving us a stack from 4k downwards.
   p->tf->eip = 0;  // beginning of initcode.S
 
   safestrcpy(p->name, "initcode", sizeof(p->name));

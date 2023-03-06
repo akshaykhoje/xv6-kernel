@@ -393,16 +393,24 @@ sys_chdir(void)
   return 0;
 }
 
+/* Akshay: this code actually has 2 exec functions : userland library
+ * exec() function and the kernel's own exec() function. 
+ */
 int
 sys_exec(void)
-{
+{   //Akshay: this part of code is to copy data from process stack
   char *path, *argv[MAXARG];
   int i;
   uint uargv, uarg;
 
+  /*Akshay: kernel coders usually DO NOT touch user's memory.
+   * However, this is an exception : argstr() and argint() in 
+   * order to get the arguments for exec to perform
+   */
   if(argstr(0, &path) < 0 || argint(1, (int*)&uargv) < 0){
     return -1;
   }
+  //Akshay: creating argv
   memset(argv, 0, sizeof(argv));
   for(i=0;; i++){
     if(i >= NELEM(argv))
