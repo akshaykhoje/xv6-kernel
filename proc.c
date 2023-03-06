@@ -365,20 +365,36 @@ scheduler(void)
 void
 sched(void)
 {
+    // sched() and scheduler() acts as co-routines i.e. they keep switching between processes
+    // these two functions work together to achieve scheduling using async jumps
+    //swtch(&p->context, mycpu()->scheduler);
   int intena;
-  struct proc *p = myproc();
-
-  if(!holding(&ptable.lock))
-    panic("sched ptable.lock");
+  struct proc *p = myproc(); //Akshay: get current process
+   
+  //error checking code
+  if(!holding(&ptable.lock))        
+      panic("sched ptable.lock");
   if(mycpu()->ncli != 1)
     panic("sched locks");
   if(p->state == RUNNING)
     panic("sched running");
   if(readeflags()&FL_IF)
     panic("sched interruptible");
+
+ //Akshay: get intr enabled status on current CPU 
   intena = mycpu()->intena;
+  /* Abhijit: switch from process context to scheduler context
+   * The mycpu()->scheduler context was saved in
+   * scheduler() during the call to swtch()
+   */
   swtch(&p->context, mycpu()->scheduler);
+  /*Abhijit: from here you go to scheduler() code*/
+
+  /*Abhijit: You come back here when scheduler() calls swtch()*/
   mycpu()->intena = intena;
+  /*Abhijit: return to whoever called sched() i.e.
+   *yield() or sleep()
+   */
 }
 
 // Give up the CPU for one scheduling round.
