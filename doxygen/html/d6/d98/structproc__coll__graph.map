@@ -1,0 +1,13 @@
+<map id="proc" name="proc">
+<area shape="rect" id="node1" title=" " alt="" coords="327,95,377,121"/>
+<area shape="rect" id="node5" href="$db/d62/structcpu.html" title=" " alt="" coords="199,184,244,211"/>
+<area shape="rect" id="node2" href="$d0/df8/structinode.html" title=" " alt="" coords="304,464,363,491"/>
+<area shape="rect" id="node10" href="$d7/d3a/structfile.html" title=" " alt="" coords="312,553,355,580"/>
+<area shape="rect" id="node3" href="$d9/dd0/structsleeplock.html" title=" " alt="" coords="230,363,314,389"/>
+<area shape="rect" id="node4" href="$d1/d08/structspinlock.html" title=" " alt="" coords="183,273,259,300"/>
+<area shape="rect" id="node11" href="$d8/d53/structpipe.html" title=" " alt="" coords="188,413,239,440"/>
+<area shape="rect" id="node6" href="$d8/d3e/structsegdesc.html" title=" " alt="" coords="5,95,80,121"/>
+<area shape="rect" id="node7" href="$d7/dfe/structcontext.html" title=" " alt="" coords="154,5,225,32"/>
+<area shape="rect" id="node8" href="$dc/dd1/structtaskstate.html" title=" " alt="" coords="220,95,303,121"/>
+<area shape="rect" id="node9" href="$df/d05/structtrapframe.html" title=" " alt="" coords="309,5,395,32"/>
+</map>

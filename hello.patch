@@ -1,0 +1,96 @@
+diff --git a/Makefile b/Makefile
+index 09d790c..e8cd945 100644
+--- a/Makefile
++++ b/Makefile
+@@ -181,6 +181,7 @@ UPROGS=\
+ 	_usertests\
+ 	_wc\
+ 	_zombie\
++	_hello\
+ 
+ fs.img: mkfs README $(UPROGS)
+ 	./mkfs fs.img README $(UPROGS)
+diff --git a/hello.c b/hello.c
+new file mode 100644
+index 0000000..404759b
+--- /dev/null
++++ b/hello.c
+@@ -0,0 +1,10 @@
++#include "types.h"                                                        
++#include "stat.h"
++#include "user.h"
++
++int 
++main(void) {
++    printf(1, "return value of system call hello() is : %d\n", hello());
++    printf(1, "System call successful!\n"); 
++    exit();
++}
+diff --git a/syscall.c b/syscall.c
+index ee85261..1e5198e 100644
+--- a/syscall.c
++++ b/syscall.c
+@@ -103,6 +103,7 @@ extern int sys_unlink(void);
+ extern int sys_wait(void);
+ extern int sys_write(void);
+ extern int sys_uptime(void);
++extern int sys_hello(void);
+ 
+ static int (*syscalls[])(void) = {
+ [SYS_fork]    sys_fork,
+@@ -126,6 +127,7 @@ static int (*syscalls[])(void) = {
+ [SYS_link]    sys_link,
+ [SYS_mkdir]   sys_mkdir,
+ [SYS_close]   sys_close,
++[SYS_hello]   sys_hello,
+ };
+ 
+ void
+diff --git a/syscall.h b/syscall.h
+index bc5f356..5f48d9b 100644
+--- a/syscall.h
++++ b/syscall.h
+@@ -20,3 +20,4 @@
+ #define SYS_link   19
+ #define SYS_mkdir  20
+ #define SYS_close  21
++#define SYS_hello  22
+diff --git a/sysproc.c b/sysproc.c
+index 0686d29..e08b52a 100644
+--- a/sysproc.c
++++ b/sysproc.c
+@@ -7,6 +7,13 @@
+ #include "mmu.h"
+ #include "proc.h"
+ 
++int 
++sys_hello(void) 
++{
++    cprintf("Hello World\n");
++    return 12;
++}
++
+ int
+ sys_fork(void)
+ {
+diff --git a/user.h b/user.h
+index 4f99c52..2f95ca5 100644
+--- a/user.h
++++ b/user.h
+@@ -23,6 +23,7 @@ int getpid(void);
+ char* sbrk(int);
+ int sleep(int);
+ int uptime(void);
++int hello(void);
+ 
+ // ulib.c
+ int stat(const char*, struct stat*);
+diff --git a/usys.S b/usys.S
+index 8bfd8a1..0072273 100644
+--- a/usys.S
++++ b/usys.S
+@@ -29,3 +29,4 @@ SYSCALL(getpid)
+ SYSCALL(sbrk)
+ SYSCALL(sleep)
+ SYSCALL(uptime)
++SYSCALL(hello)

@@ -1,0 +1,12 @@
+<map id="sched" name="sched">
+<area shape="rect" id="node1" title=" " alt="" coords="5,183,65,209"/>
+<area shape="rect" id="node2" href="$d5/d64/defs_8h.html#ac44b13cc76bf4040e3baf34df75ff230" title=" " alt="" coords="113,81,184,108"/>
+<area shape="rect" id="node6" href="$d3/dda/proc_8c.html#a6ab45dc363c8d9b7beb14c25be49c6d7" title=" " alt="" coords="233,157,299,184"/>
+<area shape="rect" id="node7" href="$d3/dda/proc_8c.html#aac2d0e6895b990d37e7c675637e9e40f" title=" " alt="" coords="113,208,184,235"/>
+<area shape="rect" id="node10" href="$d0/d56/console_8c.html#a95c0aca5d6d7487933984f08b189917a" title=" " alt="" coords="120,259,177,285"/>
+<area shape="rect" id="node3" href="$d5/d64/defs_8h.html#a6ab45dc363c8d9b7beb14c25be49c6d7" title=" " alt="" coords="233,5,299,32"/>
+<area shape="rect" id="node4" href="$d3/d2d/spinlock_8c.html#ae3424f669269fef400ce29c3aeb43fdb" title=" " alt="" coords="235,56,297,83"/>
+<area shape="rect" id="node5" href="$d3/d2d/spinlock_8c.html#a206b749d1b7768dadce61cbcde7e0f1c" title=" " alt="" coords="232,107,300,133"/>
+<area shape="rect" id="node8" href="$d5/d64/defs_8h.html#ae3424f669269fef400ce29c3aeb43fdb" title=" " alt="" coords="235,208,297,235"/>
+<area shape="rect" id="node9" href="$d5/d64/defs_8h.html#a206b749d1b7768dadce61cbcde7e0f1c" title=" " alt="" coords="232,259,300,285"/>
+</map>
