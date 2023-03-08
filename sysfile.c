@@ -442,3 +442,48 @@ sys_pipe(void)
   fd[1] = fd1;
   return 0;
 }
+
+uint
+sys_lseek(void) {
+  struct file *f;
+  int offset;
+  uint whence;
+
+  if (argfd(0, 0, &f) < 0 || 
+      argint(2, &offset) < 0 || 
+      argint(1, (int *)&whence) < 0) {
+    cprintf("args\n");
+    return -1;
+  }
+
+  
+  if (f->type != FD_INODE) 
+    return 0;
+
+  uint offset_temp;
+  uint filesize;
+
+  ilock(f->ip);
+  filesize = f->ip->size;
+  iunlock(f->ip);
+
+  switch(whence) {
+    case SEEK_SET:
+      offset_temp = 0;
+      break;
+    case SEEK_CUR:
+      offset_temp = f->off;
+      break;
+    case SEEK_END:
+      offset_temp = filesize;
+      break;
+    default:
+      cprintf("default\n");
+      return -1;
+      break;
+  }
+
+  f->off = offset_temp + offset;
+
+  return f->off;
+}
