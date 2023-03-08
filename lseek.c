@@ -14,19 +14,18 @@ main(int argc, char *argv[]) {
   char *buffer = 0;
   uint len;
   if (argc != 5) {
-    printf(1, "usage: ./lseek1 <filename> <offset>\
-	    <len> <string>\n");
+    printf(1, "Syntax: ./lseek1 filename offset len string \n");
     exit();
   }
 
   if ((fp = open(argv[1], O_RDONLY)) < 0) {
-    printf(1, "unable to open file %s\n", argv[1]);
+    printf(1, "FILE NOT FOUND!%s\n", argv[1]);
     exit();
   }
   
   len = atoi(argv[3]);
   if ((buffer = (char *)malloc(len + 1)) < 0) {
-    printf(1, "unable to allocate buffer\n");
+    printf(1, "NOT ENOUGH SPACE FOR BUFFER\n");
     exit();
   }
 
@@ -41,14 +40,13 @@ main(int argc, char *argv[]) {
   read(fp, buffer, len);
   buffer[len] = 0;
 
-  printf(1, "(%s:%s)\n", argv[4], buffer);
+  printf(1, "%s : %s\n", argv[4], buffer);
 
   if (strcmp(buffer, argv[4])) {
-    printf(1, "strings do not match\n");
+    printf(1, "Different string\n");
     exit();
   }
-
-  printf(1, "strings match\n");
+  printf(1, "Strings match\n");
 
   exit();
 }
