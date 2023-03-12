@@ -129,7 +129,7 @@ userinit(void)
   initproc = p;
   if((p->pgdir = setupkvm()) == 0)  //Akshay: pgdir gets the kernel mapping. (Above KERNBASE).
     panic("userinit: out of memory?");
-  inituvm(p->pgdir, _binary_initcode_start, (int)_binary_initcode_size);    //Akshay: does page mapping for code of the process. (Below KERNBASE).
+  inituvm(p->pgdir, _binary_initcode_start, (int)_binary_initcode_size);    //Akshay: does page mapping for code of the user process. (Below KERNBASE).
   p->sz = PGSIZE;
   memset(p->tf, 0, sizeof(*p->tf));
   p->tf->cs = (SEG_UCODE << 3) | DPL_USER;
